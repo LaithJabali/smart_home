@@ -4,10 +4,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'notificationservice.dart';
-// import 'package:timezone/timezone.dart' as tz;
-// import 'package:timezone/data/latest.dart' as tz;
+
 import 'package:flutter/material.dart';
 import 'IrrigationSystem.dart';
 import 'ConditionSystem.dart';
