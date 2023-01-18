@@ -26,6 +26,7 @@ class MyState extends State<Irrigation> {
   bool sw = false;
   int s = 0;
   double wet = 0;
+  List<bool> isSelected = [true, false];
   bool auto = false;
   bool p = false;
 
@@ -103,9 +104,10 @@ class MyState extends State<Irrigation> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 5, 15, 25),
+          backgroundColor: Color.fromARGB(255, 189, 58, 58),
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 5, 184, 106),
+            centerTitle: true,
+            backgroundColor: Color.fromARGB(255, 42, 61, 53),
             title: const Text(
               'Irrigation System',
               style: TextStyle(
@@ -133,19 +135,40 @@ class MyState extends State<Irrigation> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ToggleSwitch(
-                    minWidth: 150.0,
-                    minHeight: 60.0,
-                    fontSize: 20.0,
-                    initialLabelIndex: 0,
-                    activeBgColor: [Colors.green],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Colors.grey,
-                    inactiveFgColor: Colors.black,
-                    totalSwitches: 2,
-                    labels: ['Automatic', 'Manual'],
-                    onToggle: (index) {
+                  ToggleButtons(
+                    isSelected: isSelected,
+                    selectedColor: Colors.white,
+                    color: Colors.white,
+                    // fill color of selected toggle
+                    fillColor: Colors.green,
+                    splashColor: Colors.green,
+                    // long press to identify highlight color
+                    highlightColor: Colors.orange,
+                    // if consistency is needed for all text style
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    // border properties for each toggle
+                    renderBorder: true,
+                    borderColor: Colors.black,
+                    borderWidth: 1.5,
+                    borderRadius: BorderRadius.circular(10),
+                    selectedBorderColor: Colors.black,
+// add widgets for which the users need to toggle
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child:
+                            Text('Automatic', style: TextStyle(fontSize: 18)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child: Text('Manual', style: TextStyle(fontSize: 18)),
+                      ),
+                    ],
+// to select or deselect when pressed
+                    onPressed: (index) {
                       setState(() {
+                        isSelected[0] = !isSelected[0];
+                        isSelected[1] = !isSelected[1];
                         st = state[index.hashCode];
                         editMode();
                       });
@@ -162,11 +185,11 @@ class MyState extends State<Irrigation> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'soil pump is : ',
+                          'soil pump : ',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
                         FlutterSwitch(
@@ -205,17 +228,17 @@ class MyState extends State<Irrigation> {
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: Color.fromARGB(255, 0, 0, 0)),
                         ),
                         !p
                             ? const Card(
-                                color: Colors.red,
+                                color: Colors.green,
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     'Pump disable , soil is wet ',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -229,7 +252,7 @@ class MyState extends State<Irrigation> {
                                   child: Text(
                                     'Pump enable , soil is dry ',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -248,21 +271,21 @@ class MyState extends State<Irrigation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Wetness Level is : ',
+                    'Wetness Level : ',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 0, 0, 0),
                     ),
                   ),
                   Card(
-                    color: Colors.red,
+                    color: Colors.green,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         '$wet',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),

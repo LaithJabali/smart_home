@@ -26,6 +26,7 @@ class MyState extends State<Fire> {
   int s = 0;
   double p = 0;
   bool b = true;
+  List<bool> isSelected = [true, false];
 
   checkBuzzer() async {
     DatabaseReference starCountRef =
@@ -78,9 +79,10 @@ class MyState extends State<Fire> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 5, 15, 25),
+          backgroundColor: Color.fromARGB(255, 189, 58, 58),
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 5, 184, 106),
+            centerTitle: true,
+            backgroundColor: Color.fromARGB(255, 42, 61, 53),
             title: const Text(
               'Fire System',
               style: TextStyle(
@@ -106,16 +108,16 @@ class MyState extends State<Fire> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Buzzer State Is : ',
+                    'Buzzer State : ',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Colors.black),
                   ),
                   FlutterSwitch(
                     activeColor: Colors.green,
                     inactiveColor: Colors.red,
-                    width: 125.0,
+                    width: 120.0,
                     height: 45.0,
                     valueFontSize: 24.0,
                     toggleSize: 30.0,
@@ -140,11 +142,11 @@ class MyState extends State<Fire> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Gas State Is : ',
+                    'Gas State : ',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Colors.black),
                   ),
                   b
                       ? const Card(
@@ -154,7 +156,7 @@ class MyState extends State<Fire> {
                             child: Text(
                               'Air is Clear',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -166,15 +168,16 @@ class MyState extends State<Fire> {
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Text(
-                              'Air not Clear',
+                              'Air Not Clear',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
                         ),
+
                   // ElevatedButton(
                   //     child: const Text('click me'),
                   //     onPressed: () {
@@ -189,11 +192,11 @@ class MyState extends State<Fire> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Polution Level Is :  ',
+                    'Polution Level :  ',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Colors.black),
                   ),
                   Card(
                     color: Colors.blue,
@@ -209,6 +212,7 @@ class MyState extends State<Fire> {
                       ),
                     ),
                   ),
+
                   // ElevatedButton(
                   //     child: const Text('click me'),
                   //     onPressed: () {

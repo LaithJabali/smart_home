@@ -27,6 +27,8 @@ class MyState extends State<Condition> {
   int tem = 0;
   int tt = 0;
   int ttt = 0;
+  List<bool> isSelected = [true, false];
+
   bool auto = false;
 
   checkCondition() async {
@@ -117,9 +119,10 @@ class MyState extends State<Condition> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 5, 15, 25),
+          backgroundColor: Color.fromARGB(255, 189, 58, 58),
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 5, 184, 106),
+            centerTitle: true,
+            backgroundColor: Color.fromARGB(255, 42, 61, 53),
             title: const Text(
               'Condition System',
               style: TextStyle(
@@ -146,19 +149,40 @@ class MyState extends State<Condition> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ToggleSwitch(
-                    minWidth: 150.0,
-                    minHeight: 60.0,
-                    fontSize: 20.0,
-                    initialLabelIndex: 0,
-                    activeBgColor: [Colors.green],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Colors.grey,
-                    inactiveFgColor: Colors.black,
-                    totalSwitches: 2,
-                    labels: ['Automatic', 'Manual'],
-                    onToggle: (index) {
+                  ToggleButtons(
+                    isSelected: isSelected,
+                    selectedColor: Colors.white,
+                    color: Colors.white,
+                    // fill color of selected toggle
+                    fillColor: Colors.green,
+                    splashColor: Colors.green,
+                    // long press to identify highlight color
+                    highlightColor: Colors.orange,
+                    // if consistency is needed for all text style
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    // border properties for each toggle
+                    renderBorder: true,
+                    borderColor: Colors.black,
+                    borderWidth: 1.5,
+                    borderRadius: BorderRadius.circular(10),
+                    selectedBorderColor: Colors.black,
+// add widgets for which the users need to toggle
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child:
+                            Text('Automatic', style: TextStyle(fontSize: 18)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child: Text('Manual', style: TextStyle(fontSize: 18)),
+                      ),
+                    ],
+// to select or deselect when pressed
+                    onPressed: (index) {
                       setState(() {
+                        isSelected[0] = !isSelected[0];
+                        isSelected[1] = !isSelected[1];
                         st = state[index.hashCode];
                         editMode();
                       });
@@ -179,7 +203,7 @@ class MyState extends State<Condition> {
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: Color.fromARGB(255, 0, 0, 0)),
                         ),
                         FlutterSwitch(
                           activeColor: Colors.green,
@@ -212,11 +236,11 @@ class MyState extends State<Condition> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Temperature Is : ',
+                    'Temperature : ',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   Card(
                     color: Colors.green,
@@ -225,7 +249,7 @@ class MyState extends State<Condition> {
                       child: Text(
                         "$tem",
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 5, 5, 5),
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -247,20 +271,20 @@ class MyState extends State<Condition> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          'Temperature Threshold Is : ',
+                          'Temperature Threshold : ',
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: Color.fromARGB(255, 2, 2, 2)),
                         ),
                         Card(
-                          color: Colors.blue,
+                          color: Colors.green,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               '$tt',
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -279,19 +303,24 @@ class MyState extends State<Condition> {
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Slider(
-                          inactiveColor: Colors.white,
-                          thumbColor: Colors.yellow,
-                          value: ttt.toDouble(),
-                          max: 50,
-                          divisions: 5,
-                          label: ttt.round().toString(),
-                          onChanged: (double value) {
-                            setState(() {
-                              ttt = value.toInt();
-                              editData();
-                            });
-                          },
+                        Container(
+                          width: 300,
+                          child: Slider(
+                            inactiveColor: Colors.white,
+                            activeColor: Colors.green,
+                            thumbColor: Colors.yellow,
+                            value: ttt.toDouble(),
+                            max: 35,
+                            divisions: 15,
+                            label: ttt.round().toString(),
+                            onChanged: (double value) {
+                              setState(() {
+                                ttt = value.toInt();
+                                tt = ttt;
+                                editData();
+                              });
+                            },
+                          ),
                         ),
                       ],
                     )

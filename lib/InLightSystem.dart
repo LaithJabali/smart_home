@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -20,11 +22,14 @@ class MyState extends State<InLight> {
   double oli = 0.0;
   double ili = 0.0;
   int l = 0;
+  int ll = 0;
+  List<bool> isSelected = [true, false];
   bool auto = false;
   bool led1 = false;
   bool led2 = false;
   bool led3 = false;
   bool led4 = false;
+  bool sw = true;
 
   checkOutIntensity() async {
     DatabaseReference starCountRef =
@@ -140,30 +145,8 @@ class MyState extends State<InLight> {
       } else if (st == "Custom") {
         if (l == 0) {
           led1 = false;
-          led2 = false;
-          led3 = false;
-          led4 = false;
-        } else if (l > 0 && l <= 20) {
+        } else
           led1 = true;
-          led2 = false;
-          led3 = false;
-          led4 = false;
-        } else if (l > 20 && l <= 50) {
-          led1 = true;
-          led2 = true;
-          led3 = false;
-          led4 = false;
-        } else if (l > 50 && l <= 80) {
-          led1 = true;
-          led2 = true;
-          led3 = true;
-          led4 = false;
-        } else if (l > 80 && l <= 100) {
-          led1 = true;
-          led2 = true;
-          led3 = true;
-          led4 = true;
-        }
       }
       print('$l');
     });
@@ -274,9 +257,10 @@ class MyState extends State<InLight> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 5, 15, 25),
+          backgroundColor: Color.fromARGB(255, 189, 58, 58),
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 5, 184, 106),
+            centerTitle: true,
+            backgroundColor: Color.fromARGB(255, 42, 61, 53),
             title: const Text(
               'Inside Light System',
               style: TextStyle(
@@ -303,19 +287,40 @@ class MyState extends State<InLight> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ToggleSwitch(
-                    minWidth: 150.0,
-                    minHeight: 60.0,
-                    fontSize: 20.0,
-                    initialLabelIndex: 0,
-                    activeBgColor: [Colors.green],
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Colors.grey,
-                    inactiveFgColor: Colors.black,
-                    totalSwitches: 2,
-                    labels: ['Automatic', 'Manual'],
-                    onToggle: (index) {
+                  ToggleButtons(
+                    isSelected: isSelected,
+                    selectedColor: Colors.white,
+                    color: Colors.white,
+                    // fill color of selected toggle
+                    fillColor: Colors.green,
+                    splashColor: Colors.green,
+                    // long press to identify highlight color
+                    highlightColor: Colors.orange,
+                    // if consistency is needed for all text style
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    // border properties for each toggle
+                    renderBorder: true,
+                    borderColor: Colors.black,
+                    borderWidth: 1.5,
+                    borderRadius: BorderRadius.circular(10),
+                    selectedBorderColor: Colors.black,
+// add widgets for which the users need to toggle
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child:
+                            Text('Automatic', style: TextStyle(fontSize: 18)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child: Text('Manual', style: TextStyle(fontSize: 18)),
+                      ),
+                    ],
+// to select or deselect when pressed
+                    onPressed: (index) {
                       setState(() {
+                        isSelected[0] = !isSelected[0];
+                        isSelected[1] = !isSelected[1];
                         st = state[index.hashCode];
                         editMode();
                       });
@@ -331,20 +336,17 @@ class MyState extends State<InLight> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Indoor Light Intensity Is : ',
+                    'Indoor Light Intensity : ',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Color.fromARGB(255, 0, 0, 0)),
                   ),
+
                   const SizedBox(
                     width: 10,
                   ),
-                  const Icon(
-                    Icons.sunny,
-                    size: 40,
-                    color: Colors.yellow,
-                  ),
+
                   Card(
                     color: Colors.transparent,
                     child: Padding(
@@ -359,6 +361,7 @@ class MyState extends State<InLight> {
                       ),
                     ),
                   ),
+
                   // ElevatedButton(
                   //     child: const Text('click me'),
                   //     onPressed: () {
@@ -373,59 +376,31 @@ class MyState extends State<InLight> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Lamp State Is : ',
+                    'Lamp State : ',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Color.fromARGB(255, 5, 5, 5)),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   led1
-                      ? (const Icon(
-                          Icons.lightbulb_rounded,
-                          color: Colors.white,
-                          size: 30,
+                      ? (Text(
+                          'ON',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 5, 5, 5)),
                         ))
-                      : (const Icon(
-                          Icons.lightbulb_outlined,
-                          color: Colors.white,
-                          size: 30,
+                      : (Text(
+                          'OFF',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 5, 5, 5)),
                         )),
-                  led2
-                      ? const Icon(
-                          Icons.lightbulb_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        )
-                      : const Icon(
-                          Icons.lightbulb_outline,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                  led3
-                      ? const Icon(
-                          Icons.lightbulb_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        )
-                      : (const Icon(
-                          Icons.lightbulb_outline,
-                          color: Colors.white,
-                          size: 30,
-                        )),
-                  led4
-                      ? (const Icon(
-                          Icons.lightbulb_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        ))
-                      : (const Icon(
-                          Icons.lightbulb_outline,
-                          color: Colors.white,
-                          size: 30,
-                        ))
+
                   // ElevatedButton(
                   //     child: const Text('click me'),
                   //     onPressed: () {
@@ -437,47 +412,60 @@ class MyState extends State<InLight> {
                 height: 50,
               ),
               auto
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Text(
-                          '0',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        Expanded(
-                          child: Slider(
-                            inactiveColor: Colors.white,
-                            thumbColor: Colors.yellow,
-                            value: l.toDouble(),
-                            max: 100,
-                            divisions: 100,
-                            label: l.round().toString(),
-                            onChanged: (double value) {
-                              setState(() {
-                                editData();
-                                l = value.toInt();
-                              });
-                            },
-                          ),
-                        ),
-                        const Text(
-                          '100 ',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    )
+                  ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FlutterSwitch(
+                              activeColor: Colors.green,
+                              inactiveColor: Colors.red,
+                              width: 135.0,
+                              height: 45.0,
+                              valueFontSize: 24.0,
+                              toggleSize: 30.0,
+                              value: sw,
+                              borderRadius: 25.0,
+                              padding: 8.0,
+                              showOnOff: true,
+                              onToggle: (val) {
+                                setState(() {
+                                  if (sw == true) {
+                                    l = 1;
+                                  } else
+                                    l = 0;
+                                  sw = val;
+                                  editData();
+                                });
+                                print('the switch state is $sw');
+                              },
+                            ),
+                          ]),
+                      // Expanded(
+                      //   child: Slider(
+                      //     inactiveColor: Color.fromARGB(255, 8, 8, 8),
+                      //     thumbColor: Colors.yellow,
+                      //     value: ll.toDouble(),
+                      //     max: 100,
+                      //     divisions: 100,
+                      //     label: ll.round().toString(),
+                      //     onChanged: (double value) {
+                      //       setState(() {
+                      //         editData();
+                      //         l = ll;
+                      //         ll = value.toInt();
+                      //       });
+                      //     },
+                      //   ),
+                      // ),
+
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ])
                   : Card(),
               const SizedBox(
                 height: 50,

@@ -43,6 +43,10 @@ dependencies:
   firebase_auth: ^4.2.3
   flutter_switch: ^0.3.2
   url_launcher: ^6.1.7
+  animated_toggle_switch: ^0.6.1
+  weekday_selector: ^1.1.0
+  firebase_messaging: ^14.2.1
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:rolling_switch/rolling_switch.dart';
@@ -22,26 +22,30 @@ class MyState extends State<Monitoring> {
   bool sw = true;
   int s = 0;
   String url = "";
+  String url2 = "";
 
   _launchUrl() async {
-    if (await canLaunch("http://$url")) {
-      await launch("http://$url");
-    } else {
-      throw 'Could not launch $url';
-    }
+    await launch('http://$url', forceSafariVC: true);
   }
 
-  // Future<void> _launchUrl() async {
-  //   if (!await launchUrl(Uri.parse("http://$url"))) {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
+  _launchUrl2() async {
+    await launch('http://$url2', forceSafariVC: true);
+  }
 
   checkIP() async {
     DatabaseReference starCountRef = FirebaseDatabase.instance.ref('Camera');
     starCountRef.onValue.listen((DatabaseEvent event) {
       setState(() {
         url = event.snapshot.value.toString();
+      });
+    });
+  }
+
+  checkIP2() async {
+    DatabaseReference starCountRef = FirebaseDatabase.instance.ref('Camera2');
+    starCountRef.onValue.listen((DatabaseEvent event) {
+      setState(() {
+        url2 = event.snapshot.value.toString();
       });
     });
   }
@@ -74,6 +78,8 @@ class MyState extends State<Monitoring> {
   void initState() {
     checkMonitoring();
     checkIP();
+    checkIP2();
+
     super.initState();
   }
 
@@ -81,9 +87,10 @@ class MyState extends State<Monitoring> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 5, 15, 25),
+          backgroundColor: Color.fromARGB(255, 189, 58, 58),
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 5, 184, 106),
+            centerTitle: true,
+            backgroundColor: Color.fromARGB(255, 42, 61, 53),
             title: const Text(
               'Monitoring System',
               style: TextStyle(
@@ -108,17 +115,50 @@ class MyState extends State<Monitoring> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    'Outside :  ',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
                       shape: const StadiumBorder(),
                       fixedSize: const Size(200, 50),
                     ),
                     onPressed: _launchUrl,
                     child: const Text(
                       'Start Monitoring',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Inside :     ',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      shape: const StadiumBorder(),
+                      fixedSize: const Size(200, 50),
+                    ),
+                    onPressed: _launchUrl2,
+                    child: const Text(
+                      'Start Monitoring',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ),
                 ],

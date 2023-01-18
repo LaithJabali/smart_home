@@ -1,10 +1,10 @@
 // import 'dart:ffi';
 
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_constructors
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'IrrigationSystem.dart';
 import 'ConditionSystem.dart';
@@ -39,203 +39,265 @@ class MyState extends State<MyApp> {
   int s = 0;
   bool st = false;
 
-  // checkMotion() async {
-  //   DatabaseReference starCountRef =
-  //       FirebaseDatabase.instance.ref('MotionState');
-  //   starCountRef.onValue.listen((DatabaseEvent event) {
-  //     setState(() {
-  //       s = event.snapshot.value.hashCode;
-  //       if (s == 1237) {
-  //         st = false;
-  //       } else {
-  //         st = true;
-  //       }
-  //       if (st == true) {
-  //         NotificationService().showNotification(1, "title", "body", 10);
-  //       }
-  //     });
-  //   });
-  // }
-
   @override
   void initState() {
     Firebase.initializeApp().whenComplete(() {
       print("completed");
       setState(() {});
     });
+
     // checkMotion();
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 5, 15, 25),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            SizedBox(
-                height: 90,
-                child: DrawerHeader(
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 5, 184, 106),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          child: const SizedBox(
-                            width: 200,
-                            height: 50,
-                            child: Center(
-                                child: Text(
-                              'Smart Home Systems',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                          ),
-                        )
-                      ],
-                    ))),
-            ListTile(
-              title: const Text(
-                'Irrigation System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Irrigation()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Condition System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Condition()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Gate System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Gate()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Inside Light System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => InLight()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Outside Light System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => OutLight()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Monitoring System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Monitoring()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Water System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Water()));
-              },
-            ),
-            ListTile(
-              title: const Text(
-                'Fire System',
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Fire()));
-              },
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: Color.fromARGB(255, 133, 32, 32),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 5, 184, 106),
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 42, 61, 53),
         title: const Text(
-          'Smart Home',
+          'Smart Home Systems',
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
         ),
-        // leading: const Icon(
-        //   Icons.menu,
-        //   color: Color.fromARGB(255, 5, 15, 25),
-        //   size: 30,
-        // ),
       ),
       body: ListView(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 50,
+            height: 65,
           ),
-          const Image(
-            image: AssetImage('imgs/SmartHome.png'),
-            fit: BoxFit.fill,
-          ),
+
+          // Container(
+          //   child: Center(
+          //     child: const SizedBox(
+          //       width: 143,
+          //       height: 50,
+          //       child: Text(
+          //         'Home Systems',
+          //         style: TextStyle(
+          //             color: Colors.white,
+          //             fontSize: 20,
+          //             fontWeight: FontWeight.bold),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
-            height: 60,
+            height: 25,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Welcome ',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 212, 227, 9)),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          // ignore: prefer_const_constructors
-          Container(
-            // width: 100,
-            child: const Text(
-              'You can see the Information about the systems from menu icon of AppBar.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 8, 212, 239)),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
             ),
+            title: const Center(
+                child: Text('Monitoring System',
+                    style: TextStyle(
+                      fontSize: 20,
+                      //   fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ))),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Monitoring()));
+            },
           ),
           const SizedBox(
-            height: 50,
+            height: 10,
           ),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+                child: Text(
+              'Gate System',
+              style: TextStyle(
+                fontSize: 20,
+                // fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+            )),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Gate()));
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+              child: Text('Inside Light System',
+                  style: TextStyle(
+                    fontSize: 20,
+                    //   fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  )),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => InLight()));
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+              child: Text('Outside Light System',
+                  style: TextStyle(
+                    fontSize: 20,
+                    //   fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  )),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => OutLight()));
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 240, 240, 240), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+                child: Text('Condition System',
+                    style: TextStyle(
+                      fontSize: 20,
+                      //   fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 251, 251),
+                    ))),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Condition()));
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+                child: Text('Fire System',
+                    style: TextStyle(
+                      fontSize: 20,
+                      //  fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ))),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Fire()));
+            },
+          ),
+
+          const SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 255, 255, 255), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+              child: Text('Irrigation System',
+                  style: TextStyle(
+                    fontSize: 20,
+                    // fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  )),
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Irrigation()));
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color: Color.fromARGB(255, 243, 243, 243), width: 1.5),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            title: const Center(
+              child: Text('Scheduling System',
+                  style: TextStyle(
+                    fontSize: 20,
+                    //  fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  )),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Water()));
+            },
+          ),
+          // const Image(
+          //   image: AssetImage('imgs/SmartHome.png'),
+          //   fit: BoxFit.fill,
+          // ),
+          // const SizedBox(
+          //   height: 60,
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: const [
+          //     Text(
+          //       'Welcome ',
+          //       style: TextStyle(
+          //           fontSize: 30,
+          //           fontWeight: FontWeight.bold,
+          //           color: Color.fromARGB(255, 212, 227, 9)),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 30,
+          // ),
+          // // ignore: prefer_const_constructors
+          // Container(
+          //   // width: 100,
+          //   child: const Text(
+          //     'You can see the Information about the systems from menu icon of AppBar.',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //         fontSize: 20,
+          //         fontWeight: FontWeight.bold,
+          //         color: Color.fromARGB(255, 8, 212, 239)),
+          //   ),
+          // ),
+          // const SizedBox(
+          //   height: 50,
+          // ),
         ],
       ),
     );
